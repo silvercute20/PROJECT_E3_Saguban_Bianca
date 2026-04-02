@@ -3,14 +3,17 @@ using auth_api.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// =======================
-// JWT CONFIG
-// =======================
-var jwtKey = builder.Configuration["Jwt:Key"];
-var key = Encoding.ASCII.GetBytes(jwtKey!);
+var jwtKey = builder.Configuration["JwtSettings:Secret"];
+if (string.IsNullOrEmpty(jwtKey))
+{
+    throw new Exception("JWT Key is missing in appsettings.json!");
+}
+var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -24,26 +27,21 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidateAudience = false,
+        ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
 
-// =======================
-// SERVICES
-// =======================
+builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// =======================
-// MIDDLEWARE
-// =======================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -51,54 +49,46 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-// REGISTER
 app.MapPost("/register", (User user) =>
 {
-    user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-
+    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
     UserStore.Users.Add(user);
-
     return Results.Ok(new { message = "User registered successfully" });
 });
 
-// LOGIN (WITH JWT)
 app.MapPost("/login", (User loginUser) =>
 {
-    var user = UserStore.Users.FirstOrDefault(u =>
-        u.Email == loginUser.Email);
-
-    if (user == null || !BCrypt.Net.BCrypt.Verify(loginUser.Password, user.Password))
+    var user = UserStore.Users.FirstOrDefault(u => u.Email == loginUser.Email);
+    if (user == null || !BCrypt.Net.BCrypt.Verify(loginUser.PasswordHash, user.PasswordHash))
     {
         return Results.Unauthorized();
     }
 
-    var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-    var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
-
+    var tokenHandler = new JwtSecurityTokenHandler();
+    var tokenKey = Encoding.ASCII.GetBytes(builder.Configuration["JwtSettings:Secret"]!);
     var tokenDescriptor = new SecurityTokenDescriptor
     {
-        Subject = new System.Security.Claims.ClaimsIdentity(new[]
+        Subject = new ClaimsIdentity(new[]
         {
-            new System.Security.Claims.Claim("email", user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role)
         }),
         Expires = DateTime.UtcNow.AddHours(1),
-        Issuer = builder.Configuration["Jwt:Issuer"],
+        Issuer = builder.Configuration["JwtSettings:Issuer"],
+        Audience = builder.Configuration["JwtSettings:Audience"],
         SigningCredentials = new SigningCredentials(
-            new SymmetricSecurityKey(key),
+            new SymmetricSecurityKey(tokenKey),
             SecurityAlgorithms.HmacSha256Signature)
     };
 
     var token = tokenHandler.CreateToken(tokenDescriptor);
     var tokenString = tokenHandler.WriteToken(token);
-
     return Results.Ok(new { token = tokenString });
 });
 
-// PROTECTED ENDPOINT
 app.MapGet("/protected", () =>
 {
     return Results.Ok("Protected data accessed!");
