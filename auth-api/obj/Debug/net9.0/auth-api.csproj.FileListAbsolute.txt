@@ -1,6 +1,5 @@
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\appsettings.json
-C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\auth-api.staticwebassets.endpoints.json
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\auth-api.exe
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\auth-api.deps.json
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\auth-api.runtimeconfig.json
@@ -11,7 +10,6 @@ C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\Azure.Identity.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\BCrypt.Net-Next.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\Humanizer.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\Microsoft.Build.Locator.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
@@ -144,7 +142,6 @@ C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\runtimes\win\lib\net6.0\
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.csproj.AssemblyReference.cache
-C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\rpswa.dswa.cache.json
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.AssemblyInfoInputs.cache
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.AssemblyInfo.cs
@@ -152,14 +149,6 @@ C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.csproj.CoreComp
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.sourcelink.json
-C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\rjimswa.dswa.cache.json
-C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
-C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
-C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\scopedcss\bundle\auth-api.styles.css
-C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\staticwebassets.build.json
-C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\staticwebassets.build.json.cache
-C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\staticwebassets.development.json
-C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\staticwebassets.build.endpoints.json
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.csproj.Up2Date
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\auth-api.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\refint\auth-api.dll
@@ -192,3 +181,15 @@ C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\runtimes\win-arm\native\
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\package-lock.json
+C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\package.json
+C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\User\Desktop\4PICS1W\auth-api\bin\Debug\net9.0\auth-api.staticwebassets.endpoints.json
+C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\scopedcss\bundle\auth-api.styles.css
+C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\staticwebassets.development.json
+C:\Users\User\Desktop\4PICS1W\auth-api\obj\Debug\net9.0\staticwebassets.build.endpoints.json

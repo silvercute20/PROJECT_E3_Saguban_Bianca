@@ -12,10 +12,10 @@ namespace auth_api.Data
         public DbSet<UserPuzzleProgress> UserPuzzleProgresses { get; set; } = null!;
         public DbSet<GameSubmission> GameSubmissions { get; set; } = null!;
         public DbSet<Guess> Guesses { get; set; } = null!;
-
         public DbSet<Image> Images { get; set; } = null!;
         public DbSet<Tag> Tags { get; set; } = null!;
         public DbSet<ImageTag> ImageTags { get; set; } = null!;
+        public DbSet<Pack> Packs { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

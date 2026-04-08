@@ -14,10 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
    options.UseSqlite("Data Source=authapi.db"));
 
 var jwtKey = builder.Configuration["JwtSettings:Secret"];
-if (string.IsNullOrEmpty(jwtKey))
-{
-    throw new Exception("JWT Secret is missing in appsettings.json!");
-}
+if (string.IsNullOrEmpty(jwtKey)) throw new Exception("JWT Secret is missing!");
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(options =>
@@ -43,6 +40,13 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactDev",
+        policy => policy.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
 
 var app = builder.Build();
 
@@ -53,6 +57,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowReactDev");
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -67,10 +72,7 @@ app.MapPost("/register", async (User user, AppDbContext db) =>
 app.MapPost("/login", async (User loginUser, AppDbContext db) =>
 {
     var user = await db.Users.FirstOrDefaultAsync(u => u.Email == loginUser.Email);
-    if (user == null || !BCrypt.Net.BCrypt.Verify(loginUser.PasswordHash, user.PasswordHash))
-    {
-        return Results.Unauthorized();
-    }
+    if (user == null || !BCrypt.Net.BCrypt.Verify(loginUser.PasswordHash, user.PasswordHash)) return Results.Unauthorized();
 
     var tokenHandler = new JwtSecurityTokenHandler();
     var tokenDescriptor = new SecurityTokenDescriptor
@@ -82,9 +84,7 @@ app.MapPost("/login", async (User loginUser, AppDbContext db) =>
         }),
         Expires = DateTime.UtcNow.AddMinutes(int.Parse(builder.Configuration["JwtSettings:ExpirationMinutes"]!)),
         Issuer = builder.Configuration["JwtSettings:Issuer"],
-        SigningCredentials = new SigningCredentials(
-            new SymmetricSecurityKey(key),
-            SecurityAlgorithms.HmacSha256Signature)
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
     };
 
     var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -93,10 +93,7 @@ app.MapPost("/login", async (User loginUser, AppDbContext db) =>
     return Results.Ok(new { token = tokenString });
 });
 
-app.MapGet("/protected", () =>
-{
-    return Results.Ok("Protected data accessed!");
-}).RequireAuthorization();
+app.MapGet("/protected", () => Results.Ok("Protected data accessed!")).RequireAuthorization();
 
 app.MapGet("/puzzles/next", async (int packId, int userId, AppDbContext db) =>
 {
@@ -111,7 +108,6 @@ app.MapGet("/puzzles/next", async (int packId, int userId, AppDbContext db) =>
         .FirstOrDefaultAsync();
 
     if (puzzle == null) return Results.NotFound(new { message = "No puzzles left in this pack." });
-
     return Results.Ok(puzzle);
 }).RequireAuthorization();
 
@@ -121,5 +117,19 @@ app.MapPost("/game/submit", async (GameSubmission submission, AppDbContext db) =
     await db.SaveChangesAsync();
     return Results.Ok(new { message = "Game submitted successfully!" });
 }).RequireAuthorization();
+
+app.MapGet("/packs", async (AppDbContext db) =>
+{
+    var packs = await db.Packs.ToListAsync();
+    return Results.Ok(packs);
+});
+
+app.MapPost("/packs", async (Pack pack, AppDbContext db) =>
+{
+    pack.CreatedAt = DateTime.UtcNow;
+    db.Packs.Add(pack);
+    await db.SaveChangesAsync();
+    return Results.Created($"/packs/{pack.Id}", pack);
+});
 
 app.Run();
